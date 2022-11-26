@@ -9,4 +9,8 @@ public interface MovieService {
 
     // get movie
     MovieDTO getMovie(int id);
+
+    // get by name
+
+    public MovieDTO getMovie(String name);
 }

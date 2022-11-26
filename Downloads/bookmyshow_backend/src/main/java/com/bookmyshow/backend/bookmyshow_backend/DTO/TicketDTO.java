@@ -9,13 +9,14 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class TicketDTO {
+
+    // only used for carrying the backend info to the front
+
     long tickt_id;
     String alloted_seats;
     double amount;
 
-    @NotNull
     ShowDTO showDTO;
 
-    @NotNull
     UserDTO userDTO;
 }

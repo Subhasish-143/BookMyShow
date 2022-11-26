@@ -1,7 +1,10 @@
 package com.bookmyshow.backend.bookmyshow_backend.DTO;
 
 import com.bookmyshow.backend.bookmyshow_backend.Enum.SeatType;
+import com.sun.istack.NotNull;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,9 +17,6 @@ public class TheaterDTO {
     String city;
     String address;
 
-    // TheaterSeat
-
-
     // ShowEntity
-    ShowDTO showDTO;
+    List<ShowDTO> listOfShows;
 }

@@ -8,6 +8,8 @@ import com.bookmyshow.backend.bookmyshow_backend.models.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,6 +27,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUser(int id) {
         Optional<UserEntity> userEntity = userRepo.findById(id);
+
         return UserConverter.convertEntityToDto(userEntity);
+    }
+
+    @Override
+    public List<UserDTO> getAllUser() {
+        List<UserDTO> listOfUser = new ArrayList<>();
+        for(UserEntity user : userRepo.findAll()) {
+            listOfUser.add(UserConverter.convertEntityToDtoByEntity(user));
+        }
+        return listOfUser;
     }
 }

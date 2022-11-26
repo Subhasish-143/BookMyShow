@@ -10,11 +10,14 @@ import com.bookmyshow.backend.bookmyshow_backend.converter.TheaterConverter;
 import com.bookmyshow.backend.bookmyshow_backend.models.TheaterEntity;
 import com.bookmyshow.backend.bookmyshow_backend.models.TheaterSeatEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+@Service
 public class TheaterServiceImpl implements TheaterService {
     @Autowired
     TheaterRepository theaterRepo;
@@ -29,16 +32,16 @@ public class TheaterServiceImpl implements TheaterService {
         // create TheaterSeats
         List<TheaterSeatEntity> seats = createTheaterSeats();
 
-        // marking seats with its theater id
+        // giving the theaterSeatsEntity its theaterEntity
         for(TheaterSeatEntity theaterSeatEntity : seats) {
             theaterSeatEntity.setTheater(theater);
         }
 
+        // list of theaterSeats get added to the theaterEntity
         theater.setListOfTheaterSeat(seats);
 
         // add TheaterEntity into the TheaterRepository Database
         theaterRepo.save(theater);
-
     }
     List<TheaterSeatEntity> createTheaterSeats() {
         List<TheaterSeatEntity> Seats = new ArrayList<>();

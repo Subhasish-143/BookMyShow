@@ -12,11 +12,13 @@ import com.bookmyshow.backend.bookmyshow_backend.Repository.ShowRepository;
 import com.bookmyshow.backend.bookmyshow_backend.Repository.TheaterRepository;
 import com.bookmyshow.backend.bookmyshow_backend.Services.ShowService;
 import com.bookmyshow.backend.bookmyshow_backend.converter.ShowConverter;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ShowServiceImpl implements ShowService {
     @Autowired
     ShowRepository showRepository;
@@ -31,14 +33,14 @@ public class ShowServiceImpl implements ShowService {
     ShowSeatsRepository showSeatsRepository;
 
     @Override
-    public void addShow(ShowDTO showDTO) {
+    public void addShow(ShowDTO showDTO,int mov_id,int tht_id) {
         // partial ShowEntity
         ShowEntity showEntity = ShowConverter.convertDtoToEntity(showDTO);
 
         // Movie Entity
-        MovieEntity movieEntity = movieRepository.findById((int) showDTO.getMovieDTO().getMov_id()).get();
+        MovieEntity movieEntity = movieRepository.findById(mov_id).get();
         // Theater Entity
-        TheaterEntity theaterEntity = theaterRepository.findById(showDTO.getTheaterDTO().getTheat_id()).get();
+        TheaterEntity theaterEntity = theaterRepository.findById(tht_id).get();
 
         // setting up the movie and theater in show entity
         showEntity.setMovie(movieEntity);
@@ -48,6 +50,12 @@ public class ShowServiceImpl implements ShowService {
         // So they will be got created at the time of showEntity creation
         // for all the seats of the theater
         createShowSeats(showEntity,theaterEntity.getListOfTheaterSeat());
+
+        // ShowEntity to be added on MovieEntity
+        movieEntity.getShows().add(showEntity);
+
+        // ShowEntity to be added on Theater Entity
+        theaterEntity.getListOfShows().add(showEntity);
 
         // saving showEntity in ShowRepository
         showRepository.save(showEntity);
@@ -66,6 +74,8 @@ public class ShowServiceImpl implements ShowService {
         // saving list of seats to the showEntity
         showEntity.setListOfShowSeats(Seats);
     }
+
+    // filling all the required filled as well as the ShowEntity part also
     public static ShowSeatsEntity getShowSeats(String seatName, SeatType seatType, int rate, ShowEntity showEntity) {
         return ShowSeatsEntity.builder().seatNumber(seatName).seatType(seatType).rate(rate).show(showEntity).build();
     }

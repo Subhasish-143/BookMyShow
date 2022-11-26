@@ -18,7 +18,7 @@ import java.util.List;
 public class MovieEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long mov_id;
+    private int mov_id;
     private String name;
     private Date released_date;
 

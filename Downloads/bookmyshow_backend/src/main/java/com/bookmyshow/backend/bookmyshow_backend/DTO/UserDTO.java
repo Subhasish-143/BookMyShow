@@ -3,6 +3,8 @@ package com.bookmyshow.backend.bookmyshow_backend.DTO;
 import com.sun.istack.NotNull;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,5 +18,7 @@ public class UserDTO {
 
     @NotNull
     String number;
+
+    List<TicketDTO> listOfTicket;
 
 }
